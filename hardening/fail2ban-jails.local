@@ -1,0 +1,79 @@
+# Sarvar Fail2Ban Configuration
+# Place at: /etc/fail2ban/jail.local
+# Requires: fail2ban installed and running
+
+[DEFAULT]
+# Ban for 1 hour, find within 10 minutes
+bantime = 3600
+findtime = 600
+maxretry = 5
+
+# Email alerts (configure mail first)
+# destemail = admin@yourdomain.com
+# sendername = Sarvar-SOC
+# action = %(action_mwl)s
+
+# Ignore local networks
+ignoreip = 127.0.0.1/8 192.168.50.0/24 100.64.0.0/10 172.16.0.0/12
+
+# Backend
+backend = systemd
+
+# ===== SSH =====
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = %(sshd_log)s
+maxretry = 3
+bantime = 86400  # 24 hours for SSH
+
+# ===== NGINX =====
+[nginx-http-auth]
+enabled = true
+filter = nginx-http-auth
+logpath = /var/log/nginx/error.log
+
+[nginx-limit-req]
+enabled = true
+filter = nginx-limit-req
+logpath = /var/log/nginx/error.log
+maxretry = 10
+
+[nginx-botsearch]
+enabled = true
+filter = nginx-botsearch
+logpath = /var/log/nginx/access.log
+maxretry = 20
+
+# ===== DOCKER CONTAINERS =====
+# Nginx Proxy Manager (if logs accessible)
+[npm-auth]
+enabled = true
+filter = npm-auth
+logpath = /mnt/Data/config/npm/logs/*.log
+maxretry = 5
+
+# Pi-hole
+[pihole-auth]
+enabled = true
+filter = pihole-auth
+logpath = /mnt/Data/config/pihole/pihole.log
+maxretry = 5
+
+# Vaultwarden
+[vaultwarden]
+enabled = true
+filter = vaultwarden
+logpath = /mnt/Data/config/vaultwarden/*.log
+maxretry = 5
+
+# ===== RECIDIVE (repeat offenders) =====
+[recidive]
+enabled = true
+filter = recidive
+logpath = /var/log/fail2ban.log
+action = %(action_mwl)s
+bantime = 604800  # 1 week
+findtime = 86400  # 1 day
+maxretry = 3

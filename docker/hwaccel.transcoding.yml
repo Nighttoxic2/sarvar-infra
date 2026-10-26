@@ -1,0 +1,13 @@
+# Intel QuickSync Hardware Transcoding for Immich
+# Requires: /dev/dri/renderD128 and /dev/dri/card0 passed to container
+# Compatible with: Intel HD 630 (Kaby Lake), UHD 630 (Coffee Lake), UHD 750 (Rocket Lake)
+
+services:
+  quicksync:
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
+    environment:
+      - FFMPEG_HWACCEL=vaapi
+      - FFMPEG_VAAPI_DEVICE=/dev/dri/renderD128
+      - HWACCEL_TRANSCODE=1
