@@ -125,7 +125,7 @@ docker compose ps --filter "status=running"
 
 ```bash
 # 1. Check Immich API
-curl -s http://192.168.50.131:2283/api/server-info | jq
+curl -s http://LAN_IP:2283/api/server-info | jq
 
 # 2. Trigger re-index if needed
 docker exec immich_server npm run immich:metadata
@@ -180,7 +180,7 @@ sudo ~/sarvar-infra/hardening/ufw-rules.sh
 sudo ufw status verbose
 
 # 3. Test Tailscale
-tailscale ping 100.121.115.57
+tailscale ping TAILSCALE_IP
 ```
 
 ---
@@ -192,11 +192,11 @@ tailscale ping 100.121.115.57
 ~/sarvar-infra/monitoring/healthcheck.sh
 
 # 2. Check all services in browser
-# - https://hellofeyo.asuscomm.com (NPM)
-# - http://192.168.50.131:2283 (Immich)
-# - http://192.168.50.131:8096 (Jellyfin)
-# - http://192.168.50.131:81 (NPM Admin)
-# - http://192.168.50.131:8081 (Pi-hole)
+# - https://YOUR_DDNS_DOMAIN (NPM)
+# - http://LAN_IP:2283 (Immich)
+# - http://LAN_IP:8096 (Jellyfin)
+# - http://LAN_IP:81 (NPM Admin)
+# - http://LAN_IP:8081 (Pi-hole)
 
 # 3. Verify backup job
 ~/sarvar-infra/backup/backup.sh
@@ -238,7 +238,7 @@ If any of these fail, **stop and investigate**:
 |------|---------|
 | Primary (Self) | Muhammad Amiruddin |
 | ISP (Unifi/Time) | 1300-88-1221 |
-| ASUS Router Admin | 192.168.50.1 |
+| ASUS Router Admin | ROUTER_IP |
 | Backblaze B2 Console | backblaze.com/b2 |
 
 ---

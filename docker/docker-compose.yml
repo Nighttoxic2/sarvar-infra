@@ -13,7 +13,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
     env_file: .env
     ports:
-      - '192.168.50.131:2283:2283'
+      - 'LAN_IP:2283:2283'
     depends_on:
       - redis
       - database
@@ -67,9 +67,9 @@ services:
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
     ports:
-      - '192.168.50.131:80:80'
-      - '192.168.50.131:443:443'
-      - '192.168.50.131:81:81'
+      - 'LAN_IP:80:80'
+      - 'LAN_IP:443:443'
+      - 'LAN_IP:81:81'
     volumes:
       - ./npm-data:/data
       - ./npm-letsencrypt:/etc/letsencrypt
@@ -85,7 +85,7 @@ services:
       - /mnt/Data/config/jellyfin:/config
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - '192.168.50.131:8096:8096'
+      - 'LAN_IP:8096:8096'
     restart: unless-stopped
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128
@@ -102,7 +102,7 @@ services:
     volumes:
       - /mnt/Data/config/prowlarr:/config
     ports:
-      - '192.168.50.131:9696:9696'
+      - 'LAN_IP:9696:9696'
     restart: unless-stopped
 
   sonarr:
@@ -116,7 +116,7 @@ services:
       - /mnt/Data/config/sonarr:/config
       - /mnt/Data/media:/media
     ports:
-      - '192.168.50.131:8989:8989'
+      - 'LAN_IP:8989:8989'
     restart: unless-stopped
 
   radarr:
@@ -130,7 +130,7 @@ services:
       - /mnt/Data/config/radarr:/config
       - /mnt/Data/media:/media
     ports:
-      - '192.168.50.131:7878:7878'
+      - 'LAN_IP:7878:7878'
     restart: unless-stopped
 
   lidarr:
@@ -144,7 +144,7 @@ services:
       - /mnt/Data/config/lidarr:/config
       - /mnt/Data/media:/media
     ports:
-      - '192.168.50.131:8686:8686'
+      - 'LAN_IP:8686:8686'
     restart: unless-stopped
 
   bazarr:
@@ -158,7 +158,7 @@ services:
       - /mnt/Data/config/bazarr:/config
       - /mnt/Data/media:/media
     ports:
-      - '192.168.50.131:6767:6767'
+      - 'LAN_IP:6767:6767'
     restart: unless-stopped
 
   # ===== DOWNLOADS =====
@@ -174,9 +174,9 @@ services:
       - /mnt/Data/config/qbittorrent:/config
       - /mnt/Data/downloads:/downloads
     ports:
-      - '192.168.50.131:6881:6881'
-      - '192.168.50.131:6881:6881/udp'
-      - '192.168.50.131:8082:8080'
+      - 'LAN_IP:6881:6881'
+      - 'LAN_IP:6881:6881/udp'
+      - 'LAN_IP:8082:8080'
     restart: unless-stopped
 
   flaresolverr:
@@ -185,7 +185,7 @@ services:
     environment:
       - TZ=Asia/Kuala_Lumpur
     ports:
-      - '192.168.50.131:8181:8191'
+      - 'LAN_IP:8181:8191'
     restart: unless-stopped
 
   # ===== MONITORING & UTILITIES =====
@@ -195,7 +195,7 @@ services:
     volumes:
       - /mnt/Data/config/vaultwarden:/data
     ports:
-      - '192.168.50.131:8083:80'
+      - 'LAN_IP:8083:80'
     restart: unless-stopped
 
   seerr:
@@ -208,22 +208,22 @@ services:
     volumes:
       - /mnt/Data/config/seerr:/config
     ports:
-      - '192.168.50.131:5055:5055'
+      - 'LAN_IP:5055:5055'
     restart: unless-stopped
 
   n8n:
     container_name: n8n
     image: docker.io/n8nio/n8n:latest
     environment:
-      - N8N_HOST=192.168.50.131
+      - N8N_HOST=LAN_IP
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
-      - WEBHOOK_URL=http://192.168.50.131:5678/
+      - WEBHOOK_URL=http://LAN_IP:5678/
       - GENERIC_TIMEZONE=Asia/Kuala_Lumpur
     volumes:
       - /mnt/Data/config/n8n:/home/node/.n8n
     ports:
-      - '192.168.50.131:5678:5678'
+      - 'LAN_IP:5678:5678'
     restart: unless-stopped
 
   pihole:
@@ -239,10 +239,10 @@ services:
       - /mnt/Data/config/pihole:/etc/pihole
       - /mnt/Data/config/pihole/dnsmasq.d:/etc/dnsmasq.d
     ports:
-      - '192.168.50.131:53:53/tcp'
-      - '192.168.50.131:53:53/udp'
-      - '192.168.50.131:67:67/udp'
-      - '192.168.50.131:8081:80/tcp'
+      - 'LAN_IP:53:53/tcp'
+      - 'LAN_IP:53:53/udp'
+      - 'LAN_IP:67:67/udp'
+      - 'LAN_IP:8081:80/tcp'
     restart: unless-stopped
     cap_add:
       - NET_ADMIN

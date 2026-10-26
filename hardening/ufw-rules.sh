@@ -12,9 +12,9 @@ ufw default allow outgoing
 ufw default deny routed
 
 # ===== TRUSTED NETWORKS =====
-LAN="192.168.50.0/24"           # Home LAN
-DOCKER_NETS="172.16.0.0/12"     # Docker networks
-TAILSCALE="100.64.0.0/10"       # Tailscale CGNAT
+LAN="LAN_CIDR"           # Home LAN
+DOCKER_NETS="DOCKER_CIDR"     # Docker networks
+TAILSCALE="TAILSCALE_CIDR"       # Tailscale CGNAT
 
 # ===== SSH (LAN only) =====
 ufw allow from "${LAN}" to any port 22 proto tcp comment 'SSH from LAN'

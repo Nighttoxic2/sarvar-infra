@@ -12,26 +12,26 @@ Internet
     │
     ▼
 ┌─────────────────────────────────────┐
-│  ASUS Router (192.168.50.1)         │
-│  DDNS: hellofeyo.asuscomm.com       │
+│  ASUS Router (ROUTER_IP)         │
+│  DDNS: YOUR_DDNS_DOMAIN       │
 │  Port Forwards: 80, 443 → Sarvar    │
 └─────────────────────────────────────┘
     │
     ▼
 ┌─────────────────────────────────────┐
-│  Sarvar (192.168.50.131)            │
+│  Sarvar (LAN_IP)            │
 │  i7-7700HQ / GTX 1050 Ti / 16GB RAM │
 │  256GB NVMe + 931GB HDD             │
 │  Ubuntu Server 24.04 LTS            │
 └─────────────────────────────────────┘
     │
-    ├── Tailscale (100.121.115.57) ──► Remote Admin
-    ├── Docker Networks (172.16.0.0/12)
+    ├── Tailscale (TAILSCALE_IP) ──► Remote Admin
+    ├── Docker Networks (DOCKER_CIDR)
     │   ├── immich-net
     │   ├── media-net
     │   ├── arr-net
     │   └── proxy-net
-    └── LAN Services (192.168.50.131:port)
+    └── LAN Services (LAN_IP:port)
 ```
 
 ---
@@ -44,7 +44,7 @@ Internet
 | Nginx Proxy Manager | 80, 443, 81 | LAN + Tailscale | SSL termination, routing |
 | **Identity & Access** | | | |
 | Vaultwarden | 8083 | LAN | Password manager |
-| Tailscale | - | 100.64.0.0/10 | Zero-trust VPN |
+| Tailscale | - | TAILSCALE_CIDR | Zero-trust VPN |
 | **Media** | | | |
 | Jellyfin | 8096 | LAN | Media streaming |
 | Immich | 2283 | LAN + Tailscale | Photos + ML search |
@@ -92,7 +92,7 @@ Internet
               ▼               ▼               ▼
 ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
 │    LAN ZONE     │ │  TAILSCALE ZONE │ │  DOCKER ZONE    │
-│  192.168.50.0/24│ │  100.64.0.0/10  │ │  172.16.0.0/12  │
+│  LAN_CIDR│ │  TAILSCALE_CIDR  │ │  DOCKER_CIDR  │
 │                 │ │                 │ │                 │
 │ • Jellyfin      │ │ • Immich        │ │ • Inter-service │
 │ • *Arr Stack    │ │ • Pi-hole Admin │ │   communication │
@@ -105,7 +105,7 @@ Internet
 ### Firewall Policy (UFW)
 - **Default:** Deny incoming, Allow outgoing, Deny routed
 - **Explicit allow** per service per CIDR (LAN, Docker, Tailscale)
-- **No service binds to 0.0.0.0** — all bind to `192.168.50.131`
+- **No service binds to 0.0.0.0** — all bind to `LAN_IP`
 
 ### Container Hardening
 - Non-root users (PUID/PGID=1000)
