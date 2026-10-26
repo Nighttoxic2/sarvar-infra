@@ -5,11 +5,11 @@ Production-grade home infrastructure running 20+ containerized services with zer
 ## 🏗️ Architecture Overview
 
 ```
-Internet → Router (DDNS) → Nginx Proxy Manager (TLS) → LAN Services (192.168.x.x)
+Internet → Router (DDNS) → Nginx Proxy Manager (TLS) → LAN Services (LAN_IP)
                                     ↓
                             Tailscale VPN → Remote Admin
                                     ↓
-                            Docker Networks (172.16.x.x)
+                            Docker Networks (DOCKER_CIDR)
 ```
 
 **Hardware:** Intel i7-7700HQ | GTX 1050 Ti 4GB | 16GB RAM | 256GB NVMe + 931GB HDD  
