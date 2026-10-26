@@ -234,7 +234,7 @@ services:
       - WEBPASSWORD_FILE=/run/secrets/pihole_password
       - DNS1=9.9.9.9
       - DNS2=1.1.1.1
-      - CONDITIONAL_FORWARDING=192.168.50.1
+      - CONDITIONAL_FORWARDING=ROUTER_IP
     volumes:
       - /mnt/Data/config/pihole:/etc/pihole
       - /mnt/Data/config/pihole/dnsmasq.d:/etc/dnsmasq.d
